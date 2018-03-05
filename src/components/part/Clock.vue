@@ -1,6 +1,9 @@
 <template lang='pug'>
 .vue-clock
-    h1 これは、developです
+    .hand#hour-hand
+    .hand#minutes-hand
+    .hand#sconds-hand(ref='seconds')
+
 </template>
 
 <script lang='ts'>
