@@ -1,8 +1,8 @@
 <template lang='pug'>
 .vue-clock
-    .hand#hour-hand
-    .hand#minutes-hand
-    .hand#seconds-hand(ref='seconds')
+    .hand#hour-hand: div(ref='hours')
+    .hand#minute-hand: div(ref='minutes')
+    .hand#second-hand: div(ref='seconds')
 
 </template>
 
@@ -16,11 +16,21 @@ import VueUtil from '@/scripts/util/VueUtil';
 @Component
 export default class Clock extends Vue {
      protected mounted(): void {
-        this.setRotate(this.$refs.seconds as HTMLElement);
+        this.setRotate1(this.$refs.seconds as HTMLElement);
+        this.setRotate2(this.$refs.minutes as HTMLElement);
+        this.setRotate3(this.$refs.hours as HTMLElement);
     }
 
-    protected setRotate(div: HTMLElement): void {
-        div.style.transform = 'rotate(40deg)';
+    protected setRotate1(div: HTMLElement): void {
+        div.style.transform = 'rotate(0deg)';
+    }
+
+    protected setRotate2(div: HTMLElement): void {
+        div.style.transform = 'rotate(45deg)';
+    }
+
+    protected setRotate3(div: HTMLElement): void {
+        div.style.transform = 'rotate(90deg)';
     }
 }
 </script>
@@ -33,9 +43,23 @@ export default class Clock extends Vue {
     max-width: 700px
     position: relative
 
-    #seconds-hand
-        background-color: gray
-        margin: auto
+    .hand
+        position: absolute
         height: 100%
-        width: 0.2%
+        width: 100%
+
+        & > div
+            background-color: gray
+            position: absolute
+            width: 2px
+            height: 50%
+            top: 0%
+            left: 50%
+            transform: translate(-50%, 0)
+            transform-origin: center bottom
+
+        &#minute-hand
+            & > div
+                background-color: black
+                width: 4px
 </style>
