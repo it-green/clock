@@ -1,6 +1,6 @@
 <template lang='pug'>
 .vue-clock
-    h1 これは時計です
+    h1 これは、時計です
 </template>
 
 <script lang='ts'>
