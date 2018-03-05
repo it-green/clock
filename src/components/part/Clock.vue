@@ -2,7 +2,7 @@
 .vue-clock
     .hand#hour-hand
     .hand#minutes-hand
-    .hand#sconds-hand(ref='seconds')
+    .hand#seconds-hand(ref='seconds')
 
 </template>
 
@@ -15,11 +15,27 @@ import VueUtil from '@/scripts/util/VueUtil';
  */
 @Component
 export default class Clock extends Vue {
+     protected mounted(): void {
+        this.setRotate(this.$refs.seconds as HTMLElement);
+    }
+
+    protected setRotate(div: HTMLElement): void {
+        div.style.transform = 'rotate(40deg)';
+    }
 }
 </script>
 
 <style lang='sass' scoped>
 @import 'all'
-
 .vue-clock
+    height: 700px
+    margin: 40px auto
+    max-width: 700px
+    position: relative
+
+    #seconds-hand
+        background-color: gray
+        margin: auto
+        height: 100%
+        width: 0.2%
 </style>
