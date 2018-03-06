@@ -1,10 +1,9 @@
 <template lang='pug'>
 .vue-clock
-
-    .center
     .hand#hour-hand: div(ref='hours')
     .hand#minute-hand: div(ref='minutes')
-    .hand#second-hand: div(ref='seconds')
+    .hand#second-hand: div(ref='seconds') {{ updateMilliseconds() }}
+    .center: div
 
 
 </template>
@@ -12,28 +11,35 @@
 <script lang='ts'>
 import { Vue, Component } from 'vue-property-decorator';
 import VueUtil from '@/scripts/util/VueUtil';
+import { setInterval } from 'timers';
 
 /**
  * Vue Component
  */
 @Component
 export default class Clock extends Vue {
-     protected mounted(): void {
-        this.setRotate1(this.$refs.seconds as HTMLElement);
-        this.setRotate2(this.$refs.minutes as HTMLElement);
-        this.setRotate3(this.$refs.hours as HTMLElement);
+    private date: Date = new Date();
+
+    protected mounted(): void {
+        setInterval(() => {
+            this.date = new Date();
+        }, 30);
     }
 
-    protected setRotate1(div: HTMLElement): void {
-        div.style.transform = 'rotate(0deg)';
+    protected setRotate(elem: HTMLElement, deg: number) {
+        if (elem == null) {
+            return;
+        }
+
+        elem.style.transform = `rotate(${deg}deg)`;
     }
 
-    protected setRotate2(div: HTMLElement): void {
-        div.style.transform = 'rotate(40deg)';
-    }
-
-    protected setRotate3(div: HTMLElement): void {
-        div.style.transform = 'rotate(0deg)';
+    protected updateMilliseconds(): void {
+        const milliSeconds = this.date.getSeconds() * 1000
+            + this.date.getMilliseconds();
+        const elem = this.$refs.seconds as HTMLElement;
+        const deg = (360 * milliSeconds) / 60000;
+        this.setRotate(elem, deg)
     }
 }
 </script>
@@ -65,5 +71,21 @@ export default class Clock extends Vue {
             & > div
                 background-color: yellow
                 width: 4px
+
+    .center
+        position: absolute
+        height: 100%
+        width: 100%
+
+        & > div
+            background-color: black
+            position: absolute
+            width: 16px
+            height: 16px
+            top: 50%
+            left: 50%
+            transform: translate(-50%, -50%)
+
+
 
 </style>
