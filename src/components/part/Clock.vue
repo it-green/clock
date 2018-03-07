@@ -91,73 +91,89 @@ export default class Clock extends Vue {
 <style lang='sass' scoped>
 @import 'all'
 
-.clockarea
-    position: relative
-    width: 100%
-    max-width: 600px
-    margin: 40px auto
+.vue-clock
+    .date
+        p
+            font-size: 4em
+            font-family: Batang
+            color: black
 
-    &::before
-        content: ''
-        display: block
-        padding-top: 100%
+    .degital
+        p
+            font-size: 4em
+            font-family: Batang
+            color: black
 
-    .clock-back
-        position: absolute
+    .clockarea
+        position: relative
         width: 100%
-        height: 100%
-        top: 0
-        left: 0
+        max-width: 600px
+        margin: 40px auto
 
-    .hand
-        position: absolute
-        height: 90%
-        width: 90%
-        top: 50%
-        left: 50%
-        transform: translate(-50%, -50%)
+        &::before
+            content: ''
+            display: block
+            padding-top: 100%
 
-        & > div
-            background-color: gray
+        .clock-back
             position: absolute
-            width: 2px
-            height: 50%
-            top: 50%
-            left: 50%
-            transform: translate(-50%, -100%)
-            transform-origin: center bottom
+            width: 100%
+            height: 100%
+            top: 0
+            left: 0
 
-        &#hoursHand
-            & > div
-                background-color: black
-                width: 8px
-                height: 30%
-
-        &#minutesHand
-            & > div
-                background-color: black
-                width: 4px
-
-        &#secondsHand
-            & > div
-                background-color: red
-
-    .center
-        position: absolute
-        height: 100%
-        width: 100%
-        top: 0
-        left: 0
-        border-radius: 50%
-
-        & > div
-            background-color: black
+        .hand
             position: absolute
-            width: 30px
-            height: 30px
+            height: 90%
+            width: 90%
             top: 50%
             left: 50%
             transform: translate(-50%, -50%)
+
+            & > div
+                background-color: gray
+                position: absolute
+                width: 2px
+                height: 50%
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -100%)
+                transform-origin: center bottom
+
+            &#hoursHand
+                & > div
+                    background-color: black
+                    width: 8px
+                    height: 30%
+
+            &#minutesHand
+                & > div
+                    background-color: black
+                    width: 4px
+
+            &#secondsHand
+                & > div
+                    background-color: red
+
+        .center
+            position: absolute
+            height: 100%
+            width: 100%
+            top: 0
+            left: 0
             border-radius: 50%
+
+            & > div
+                background-color: black
+                position: absolute
+                width: 30px
+                height: 30px
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                border-radius: 50%
+
+    @media screen and (max-width: $tablet)
+        font-size: 2.4vw
 
 </style>

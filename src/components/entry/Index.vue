@@ -42,6 +42,7 @@ export default class Index extends RootVue {
 
 <style lang='sass'>
 @import 'all'
-
 .vue-index
+
+
 </style>
