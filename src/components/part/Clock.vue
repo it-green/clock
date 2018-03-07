@@ -39,7 +39,7 @@ export default class Clock extends Vue {
             return;
         }
 
-        elem.style.transform = `rotate(${deg}deg)`;
+        elem.style.transform = `translate(-50%, -100%) rotate(${deg}deg)`;
     }
 
     protected updateMilliseconds(): void {
@@ -94,9 +94,9 @@ export default class Clock extends Vue {
             position: absolute
             width: 2px
             height: 50%
-            top: 0%
+            top: 50%
             left: 50%
-            transform: translate(-50%, 0)
+            transform: translate(-50%, -100%)
             transform-origin: center bottom
 
         &#minute-hand
@@ -108,6 +108,7 @@ export default class Clock extends Vue {
             & > div
                 background-color: black
                 width: 8px
+                height: 30%
 
         &#second-hand
             & > div
