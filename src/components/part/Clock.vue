@@ -27,9 +27,9 @@
         .columns.is-centered.has-text-centered.is-mobile
             .column.is-narrow: p {{ date.getHours() }}
             .column.is-narrow: p :
-            .column.is-narrow: p {{ date.getMinutes() }}
+            .column.is-narrow: p {{ date.getMinutes().toString().padStart(2, '0') }}
             .column.is-narrow: p :
-            .column.is-narrow: p {{ date.getSeconds() }}
+            .column.is-narrow: p {{ date.getSeconds().toString().padStart(2, '0') }}
 
     .footer
         div.container
@@ -77,7 +77,7 @@ export default class Clock extends Vue {
     }
 
     protected updateMinutes(): void {
-        const minutes = this.date.getMinutes();
+        const minutes = this.date.getMinutes() + ((this.date.getSeconds() * 1000 + this.date.getMilliseconds()) / 60000);
         const elem = this.$refs.minutes as HTMLElement;
         //$ref 子コンポーネント参照する
         const deg = (360 * minutes) / 60;
@@ -102,9 +102,9 @@ html
     min-height: 100%
 
 .clockarea
-    height: 479px
+    height: 520px
     margin: 40px auto
-    max-width: 479px
+    max-width: 520px
     position: relative
 
     .clock-back
