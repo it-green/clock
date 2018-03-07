@@ -102,9 +102,9 @@ html
     min-height: 100%
 
 .clockarea
-    height: 503px
+    height: 479px
     margin: 40px auto
-    max-width: 503px
+    max-width: 479px
     position: relative
 
     .clock-back
