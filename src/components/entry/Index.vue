@@ -1,7 +1,18 @@
 <template lang='pug'>
 .vue-index
     .reactive-title {{ reactiveTitle() }}
-    clock
+    header.hero.is-primary
+        div.hero-body
+         div.container
+          h1.title Analog Clock
+          h2.subtitle made by vue
+
+    section.main.section
+        clock
+
+    footer.footer
+        div.container
+            div.content.has-text-centerd
 </template>
 
 <script lang='ts'>

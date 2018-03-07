@@ -1,26 +1,18 @@
 <template lang='pug'>
-
 .vue-clock
-
-    .hero.is-primary
-        div.hero-body
-         div.container
-          h1.title Analog Clock
-          h2.subtitle made by vue
-
     .date
         .columns.is-centered.has-text-centered.is-mobile
-                .column.is-narrow: p {{ date.getMonth() + 1 }}
-                .column.is-narrow: p 月
-                .column.is-narrow: p {{ date.getDate() }}
-                .column.is-narrow: p 日
+            .column.is-narrow: p {{ date.getMonth() + 1 }}
+            .column.is-narrow: p 月
+            .column.is-narrow: p {{ date.getDate() }}
+            .column.is-narrow: p 日
 
 
     .clockarea
         img.clock-back(:src='imgs["clock-back"]')
-        .hand#hour-hand: div(ref='hours') {{ updateHours() }}
-        .hand#minute-hand: div(ref='minutes') {{ updateMinutes() }}
-        .hand#second-hand: div(ref='seconds') {{ updateMilliseconds() }}
+        .hand#hoursHand: div(ref='hours') {{ updateHours() }}
+        .hand#minutesHand: div(ref='minutes') {{ updateMinutes() }}
+        .hand#secondsHand: div(ref='seconds') {{ updateMilliseconds() }}
         .center: div
 
     .degital
@@ -30,12 +22,6 @@
             .column.is-narrow: p {{ date.getMinutes().toString().padStart(2, '0') }}
             .column.is-narrow: p :
             .column.is-narrow: p {{ date.getSeconds().toString().padStart(2, '0') }}
-
-    .footer
-        div.container
-            div.content.has-text-centerd
-
-
 </template>
 
 <script lang='ts'>
@@ -71,24 +57,31 @@ export default class Clock extends Vue {
     protected updateMilliseconds(): void {
         const milliSeconds = this.date.getSeconds() * 1000
             + this.date.getMilliseconds();
+        // $ref 子コンポーネント参照する
         const elem = this.$refs.seconds as HTMLElement;
         const deg = (360 * milliSeconds) / 60000;
         this.setRotate(elem, deg)
     }
 
+    protected calcSecondsPerMinit(): number {
+        return (this.date.getSeconds() * 1000 + this.date.getMilliseconds()) / 60000;
+    }
+
+    protected calcMinutesPerHour(): number {
+        return (this.date.getMinutes() + this.calcSecondsPerMinit()) / 60;
+    }
+
     protected updateMinutes(): void {
-        const minutes = this.date.getMinutes() + ((this.date.getSeconds() * 1000 + this.date.getMilliseconds()) / 60000);
+        const minutes = this.date.getMinutes() + this.calcSecondsPerMinit();
         const elem = this.$refs.minutes as HTMLElement;
-        //$ref 子コンポーネント参照する
         const deg = (360 * minutes) / 60;
         this.setRotate(elem , deg)
     }
 
     protected updateHours(): void {
-        const hours = this.date.getHours()
-        + this.date.getHours();
+        const hours = this.date.getHours() + this.calcMinutesPerHour();
         const elem = this.$refs.hours as HTMLElement;
-        const deg = (360 * hours) / 24;
+        const deg = (360 * hours) / 12;
         this.setRotate(elem , deg)
     }
 
@@ -98,19 +91,23 @@ export default class Clock extends Vue {
 <style lang='sass' scoped>
 @import 'all'
 
-html
-    min-height: 100%
-
 .clockarea
-    height: 520px
-    margin: 40px auto
-    max-width: 520px
     position: relative
+    width: 100%
+    max-width: 600px
+    margin: 40px auto
+
+    &::before
+        content: ''
+        display: block
+        padding-top: 100%
 
     .clock-back
         position: absolute
         width: 100%
         height: 100%
+        top: 0
+        left: 0
 
     .hand
         position: absolute
@@ -130,18 +127,18 @@ html
             transform: translate(-50%, -100%)
             transform-origin: center bottom
 
-        &#minute-hand
-            & > div
-                background-color: black
-                width: 4px
-
-        &#hour-hand
+        &#hoursHand
             & > div
                 background-color: black
                 width: 8px
                 height: 30%
 
-        &#second-hand
+        &#minutesHand
+            & > div
+                background-color: black
+                width: 4px
+
+        &#secondsHand
             & > div
                 background-color: red
 
@@ -149,6 +146,8 @@ html
         position: absolute
         height: 100%
         width: 100%
+        top: 0
+        left: 0
         border-radius: 50%
 
         & > div
