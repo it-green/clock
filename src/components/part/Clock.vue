@@ -1,13 +1,39 @@
 <template lang='pug'>
+
 .vue-clock
 
-    img.clock-back(:src='imgs["clock-back"]')
-    .hand#hour-hand: div(ref='hours') {{ updateHours() }}
-    .hand#minute-hand: div(ref='minutes') {{ updateMinutes() }}
-    .hand#second-hand: div(ref='seconds') {{ updateMilliseconds() }}
-    .center: div
+    .hero.is-primary
+        div.hero-body
+         div.container
+          h1.title Analog Clock
+          h2.subtitle made by vue
 
-    h1.title Clock
+    .date
+        .columns.is-centered.has-text-centered.is-mobile
+                .column.is-narrow: p {{ date.getMonth() + 1 }}
+                .column.is-narrow: p 月
+                .column.is-narrow: p {{ date.getDate() }}
+                .column.is-narrow: p 日
+
+
+    .clockarea
+        img.clock-back(:src='imgs["clock-back"]')
+        .hand#hour-hand: div(ref='hours') {{ updateHours() }}
+        .hand#minute-hand: div(ref='minutes') {{ updateMinutes() }}
+        .hand#second-hand: div(ref='seconds') {{ updateMilliseconds() }}
+        .center: div
+
+    .degital
+        .columns.is-centered.has-text-centered.is-mobile
+            .column.is-narrow: p {{ date.getHours() }}
+            .column.is-narrow: p :
+            .column.is-narrow: p {{ date.getMinutes() }}
+            .column.is-narrow: p :
+            .column.is-narrow: p {{ date.getSeconds() }}
+
+    .footer
+        div.container
+            div.content.has-text-centerd
 
 
 </template>
@@ -65,15 +91,20 @@ export default class Clock extends Vue {
         const deg = (360 * hours) / 24;
         this.setRotate(elem , deg)
     }
+
 }
 </script>
 
 <style lang='sass' scoped>
 @import 'all'
-.vue-clock
-    height: 700px
+
+html
+    min-height: 100%
+
+.clockarea
+    height: 503px
     margin: 40px auto
-    max-width: 700px
+    max-width: 503px
     position: relative
 
     .clock-back
