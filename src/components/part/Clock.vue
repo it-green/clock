@@ -1,9 +1,13 @@
 <template lang='pug'>
 .vue-clock
+
+    img.clock-back(:src='imgs["clock-back"]')
     .hand#hour-hand: div(ref='hours') {{ updateHours() }}
     .hand#minute-hand: div(ref='minutes') {{ updateMinutes() }}
     .hand#second-hand: div(ref='seconds') {{ updateMilliseconds() }}
     .center: div
+
+    h1.title Clock
 
 
 </template>
@@ -18,12 +22,16 @@ import { setInterval } from 'timers';
  */
 @Component
 export default class Clock extends Vue {
+    protected imgs: Imgs = {
+        'clock-back': require('@/resources/img/clock.jpg')
+    }
     private date: Date = new Date();
 
     protected mounted(): void {
         setInterval(() => {
             this.date = new Date();
         }, 30);
+    console.log(this.date);
     }
 
     protected setRotate(elem: HTMLElement, deg: number) {          //要素の指示　 deg=角度つまり、角度を数字で表すように指示
@@ -43,19 +51,18 @@ export default class Clock extends Vue {
     }
 
     protected updateMinutes(): void {
-        const minutes = this.date.getMinutes() * 1000
-        + this.date.getMinutes();
+        const minutes = this.date.getMinutes();
         const elem = this.$refs.minutes as HTMLElement;
-        //$ref 子コンポーネント参照できる
-        const deg = (360 * minutes) / 60000;
+        //$ref 子コンポーネント参照する
+        const deg = (360 * minutes) / 60;
         this.setRotate(elem , deg)
     }
 
-    protected updateHours(): void{
-        const hours = this.date.getHours() * 1000
+    protected updateHours(): void {
+        const hours = this.date.getHours()
         + this.date.getHours();
         const elem = this.$refs.hours as HTMLElement;
-        const deg = (360 * hours) / 60000;
+        const deg = (360 * hours) / 24;
         this.setRotate(elem , deg)
     }
 }
@@ -69,10 +76,18 @@ export default class Clock extends Vue {
     max-width: 700px
     position: relative
 
+    .clock-back
+        position: absolute
+        width: 100%
+        height: 100%
+
     .hand
         position: absolute
-        height: 100%
-        width: 100%
+        height: 90%
+        width: 90%
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
 
         & > div
             background-color: gray
@@ -86,8 +101,17 @@ export default class Clock extends Vue {
 
         &#minute-hand
             & > div
-                background-color: yellow
+                background-color: black
                 width: 4px
+
+        &#hour-hand
+            & > div
+                background-color: black
+                width: 8px
+
+        &#second-hand
+            & > div
+                background-color: red
 
     .center
         position: absolute
@@ -103,7 +127,6 @@ export default class Clock extends Vue {
             top: 50%
             left: 50%
             transform: translate(-50%, -50%)
-
-
+            border-radius: 50%
 
 </style>
